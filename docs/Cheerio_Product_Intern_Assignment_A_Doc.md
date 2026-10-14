@@ -6,6 +6,11 @@
 **Assignment:** Assignment A — Make customer support scale for non-technical users  
 **Submission Date:** October 2026  
 
+### 🔗 Key Submission Links:
+- 📊 **Google Sheet Financial Model (Formulas Open):** [https://docs.google.com/spreadsheets/d/1WnJ3bdVE5B9BosfFI6vvNWovTj7HoKby45zypw0_HpI/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1WnJ3bdVE5B9BosfFI6vvNWovTj7HoKby45zypw0_HpI/edit?usp=sharing)
+- 🚀 **Clickable Design Prototype (Live):** [https://rohitt2008.github.io/cheerio-support-copilot/](https://rohitt2008.github.io/cheerio-support-copilot/)
+- 💻 **GitHub Repository:** [https://github.com/rohitt2008/cheerio-support-copilot](https://github.com/rohitt2008/cheerio-support-copilot)  
+
 ---
 
 ## Executive Summary
