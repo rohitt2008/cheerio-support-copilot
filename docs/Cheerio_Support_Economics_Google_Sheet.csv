@@ -1,0 +1,92 @@
+Category,Parameter,Value,Unit,Formula / Notes
+1. BUSINESS & VOLUME ASSUMPTIONS,Total Active Businesses,5000,Businesses,Given in brief
+1. BUSINESS & VOLUME ASSUMPTIONS,New / Onboarding Businesses (Monthly),1000,Businesses,20% monthly new customer inflow
+1. BUSINESS & VOLUME ASSUMPTIONS,Established Businesses (Monthly),4000,Businesses,=B2-B3
+1. BUSINESS & VOLUME ASSUMPTIONS,Queries per Onboarding Business,3.5,Queries / Month,High touch during Meta API & template setup
+1. BUSINESS & VOLUME ASSUMPTIONS,Queries per Established Business,1.375,Queries / Month,Steady state queries
+1. BUSINESS & VOLUME ASSUMPTIONS,Total Monthly Support Queries,9000,Queries / Month,=(B3*B5)+(B4*B6)
+1. BUSINESS & VOLUME ASSUMPTIONS,Blended Queries per Active Business,1.8,Queries / Business,=B7/B2
+,,,,
+2. QUERY CATEGORY BREAKDOWN & DEFLECTION,Category,Share of Volume,Monthly Queries,AI Deflection Rate,Resolved by AI,Escalated to Human
+2. QUERY CATEGORY BREAKDOWN & DEFLECTION,Setup: Meta API & Templates,50.0%,=B7*C11,75.0%,=D11*E11,=D11-F11
+2. QUERY CATEGORY BREAKDOWN & DEFLECTION,Usage: Flows & Broadcasts,30.0%,=B7*C12,85.0%,=D12*E12,=D12-F12
+2. QUERY CATEGORY BREAKDOWN & DEFLECTION,Complex: Policy Bans & Custom Webhooks,20.0%,=B7*C13,15.0%,=D13*E13,=D13-F13
+2. QUERY CATEGORY BREAKDOWN & DEFLECTION,Total Queries Handled,100.0%,=SUM(D11:D13),66.0%,=SUM(F11:F13),=SUM(G11:G13)
+,,,,
+3. AI RUNNING COST & TOKEN MATH,Parameter,Value,Unit,Formula / Source Notes
+3. AI RUNNING COST & TOKEN MATH,AI Model Selected,GPT-4o-mini,Model,"Standard lightweight, fast classification & action agent"
+3. AI RUNNING COST & TOKEN MATH,Input Price per 1M Tokens,$0.150,USD,"OpenAI Pricing (Oct 2024)"
+3. AI RUNNING COST & TOKEN MATH,Cached Input Price per 1M Tokens,$0.075,USD,"OpenAI 50% prompt caching discount"
+3. AI RUNNING COST & TOKEN MATH,Output Price per 1M Tokens,$0.600,USD,"OpenAI Pricing (Oct 2024)"
+3. AI RUNNING COST & TOKEN MATH,Uncached Input Tokens per Query,1250,Tokens,"System prompt, user query, dynamic telemetry"
+3. AI RUNNING COST & TOKEN MATH,Cached Input Tokens per Query,1250,Tokens,"Cached Cheerio knowledge base & API schemas"
+3. AI RUNNING COST & TOKEN MATH,Output Tokens per Query,400,Tokens,"Concise diagnostic + 1-click action JSON schema"
+3. AI RUNNING COST & TOKEN MATH,Input Token Cost per Query,$0.000281,USD,=(B21*(B18/1000000))+(B22*(B19/1000000))
+3. AI RUNNING COST & TOKEN MATH,Output Token Cost per Query,$0.000240,USD,=B23*(B20/1000000)
+3. AI RUNNING COST & TOKEN MATH,RAG & Vector Search Overhead per Query,$0.000120,USD,"Serverless pgvector / Pinecone search cost"
+3. AI RUNNING COST & TOKEN MATH,Total AI Cost per Query (USD),$0.000641,USD,=SUM(B24:B26)
+3. AI RUNNING COST & TOKEN MATH,USD to INR Exchange Rate,83.50,INR / USD,"Standard baseline exchange rate"
+3. AI RUNNING COST & TOKEN MATH,Total AI Cost per Query (INR),₹0.054,INR,=B27*B28
+3. AI RUNNING COST & TOKEN MATH,Monthly AI Token Spend (9000 queries),$5.77,USD,=B7*B27
+3. AI RUNNING COST & TOKEN MATH,Monthly Cloud & Vector DB Infrastructure,$45.00,USD,"Database, logging, and uptime monitoring"
+3. AI RUNNING COST & TOKEN MATH,Total Monthly AI Engine Cost (USD),$50.77,USD,=B30+B31
+3. AI RUNNING COST & TOKEN MATH,Total Monthly AI Engine Cost (INR),₹4239,INR,=B32*B28
+,,,,
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Parameter,Value,Unit,Formula / Notes
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Monthly Inbound Queries,9000,Queries,=B7
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Avg Handling Time per Ticket (AHT),18,Minutes,"Standard L1 support ticket investigation"
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Working Days per Month,22,Days,"Standard monthly working days"
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Working Hours per Day,8,Hours,"Productive hours per shift"
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Ticket Capacity per Agent per Day,35,Tickets / Day,"=ROUNDDOWN((B39*60*0.8)/B37, 0)"
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Monthly Capacity per Agent,770,Tickets / Agent / Mo,=B40*B38
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Full-Time Agents Required,11.69,Agents,=B36/B41
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Staffed Full-Time Agents (Rounded),12,Agents,=ROUNDUP(B42,0)
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Monthly Cost per Agent (Salary + Overhead),₹45000,INR / Agent / Mo,"₹35k base salary + ₹10k laptop, benefits, desk, tools"
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Monthly Cost per Agent (USD),$538.92,USD,=B44/B28
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Total Monthly Human Support Cost (INR),₹540000,INR / Month,=B43*B44
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Total Monthly Human Support Cost (USD),$6467.07,USD,=B46/B28
+4. HUMAN SUPPORT BASELINE (WITHOUT AI),Annualized Human Support Cost (INR),₹6480000,INR / Year,=B46*12
+,,,,
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Parameter,Value,Unit,Formula / Notes
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Total Monthly Inbound Queries,9000,Queries,=B7
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Queries Resolved by AI Autonomously,5940,Queries,=F14
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Queries Escalated to Humans,3060,Queries,=G14
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Reduced Handling Time (AHT) with AI Dossier,7,Minutes,"55% time saved because logs and context are pre-packaged"
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),New Agent Ticket Capacity per Day,55,Tickets / Day,"=ROUNDDOWN((B39*60*0.8)/B53, 0)"
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),New Monthly Capacity per Agent,1210,Tickets / Agent / Mo,=B54*B38
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Human Agents Needed (Escalated Only),2.53,Agents,=B52/B55
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Staffed Human Agents (Rounded),3,Agents,=ROUNDUP(B56,0)
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),New Monthly Human Labor Cost (INR),₹135000,INR / Month,=B57*B44
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Monthly AI Infrastructure & Token Cost (INR),₹4239,INR / Month,=B33
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Total Hybrid Monthly Cost (INR),₹139239,INR / Month,=B58+B59
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Total Hybrid Monthly Cost (USD),$1667.54,USD,=B60/B28
+5. CHEERIO COPILOT HYBRID MODEL (WITH AI),Annualized Hybrid Support Cost (INR),₹1670872,INR / Year,=B60*12
+,,,,
+6. NET FINANCIAL SAVINGS & ROI,Metric,Value,Unit,Formula / Notes
+6. NET FINANCIAL SAVINGS & ROI,Monthly Absolute Savings (INR),₹400761,INR / Month,=B46-B60
+6. NET FINANCIAL SAVINGS & ROI,Monthly Absolute Savings (USD),$4799.53,USD,=B47-B61
+6. NET FINANCIAL SAVINGS & ROI,Annualized Cost Savings (INR),₹4809128,INR / Year,=B65*12
+6. NET FINANCIAL SAVINGS & ROI,Annualized Cost Savings (USD),$57594.35,USD,=B66*12
+6. NET FINANCIAL SAVINGS & ROI,Support Cost Reduction Percentage,74.2%,%,=B65/B46
+6. NET FINANCIAL SAVINGS & ROI,Support Cost per Active Business per Month (Old),₹108.00,INR / Business / Mo,=B46/B2
+6. NET FINANCIAL SAVINGS & ROI,Support Cost per Active Business per Month (New),₹27.85,INR / Business / Mo,=B60/B2
+6. NET FINANCIAL SAVINGS & ROI,Return on AI Investment (Monthly ROI),9454%,%,=(B65/B59)*100
+,,,,
+7. BILLING STRATEGY & UPSELL MODEL,Parameter,Value,Unit,Formula / Notes
+7. BILLING STRATEGY & UPSELL MODEL,Core Diagnostic Support Tier,Free,Tier,"Bundled into all plans to accelerate onboarding & prevent churn"
+7. BILLING STRATEGY & UPSELL MODEL,Premium Add-On Product,AI Workflow Copilot,Add-on,"Autonomous prompt-to-flow campaign builder"
+7. BILLING STRATEGY & UPSELL MODEL,Add-On Monthly Price,₹999,INR / Month,"Optional add-on for Growth/Scale users"
+7. BILLING STRATEGY & UPSELL MODEL,Estimated Add-On Adoption Rate,8.0%,%,8% of 5000 active businesses adopt add-on
+7. BILLING STRATEGY & UPSELL MODEL,Number of Add-On Subscribers,400,Businesses,=B2*B77
+7. BILLING STRATEGY & UPSELL MODEL,Monthly Add-On Revenue,₹399600,INR / Month,=B78*B76
+7. BILLING STRATEGY & UPSELL MODEL,Add-On AI Running Cost per User,₹25.00,INR / User / Month,"Estimated 50 flow generation calls per user"
+7. BILLING STRATEGY & UPSELL MODEL,Total Monthly Add-On COGS,₹10000,INR / Month,=B78*B80
+7. BILLING STRATEGY & UPSELL MODEL,Add-On Gross Profit,₹389600,INR / Month,=B79-B81
+7. BILLING STRATEGY & UPSELL MODEL,Add-On Gross Margin,97.5%,%,=B82/B79
+,,,,
+8. SENSITIVITY ANALYSIS: DEFLECTION RATE VS ANNUAL SAVINGS,AI Deflection Rate,Resolved Queries,Human Agents Needed,Annual Hybrid Cost (INR),Annual Net Savings (INR),Savings %
+8. SENSITIVITY ANALYSIS: DEFLECTION RATE VS ANNUAL SAVINGS,45.0%,4050,5,₹2750872,₹3729128,57.5%
+8. SENSITIVITY ANALYSIS: DEFLECTION RATE VS ANNUAL SAVINGS,55.0%,4950,4,₹2210872,₹4269128,65.9%
+8. SENSITIVITY ANALYSIS: DEFLECTION RATE VS ANNUAL SAVINGS,66.0% (Base),5940,3,₹1670872,₹4809128,74.2%
+8. SENSITIVITY ANALYSIS: DEFLECTION RATE VS ANNUAL SAVINGS,75.0%,6750,2,₹1130872,₹5349128,82.5%
+8. SENSITIVITY ANALYSIS: DEFLECTION RATE VS ANNUAL SAVINGS,85.0%,7650,1,₹590872,₹5889128,90.9%

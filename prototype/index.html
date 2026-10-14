@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cheerio AI — Autonomous Support & Diagnostics Engine</title>
+  <meta name="description" content="Cheerio Copilot: Scaling customer support for non-technical users via real-time diagnostics and 1-click auto-fixes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-dark">
+  <!-- Top Application Bar -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="brand-name">Cheerio<span class="brand-ai">AI</span></span>
+        <span class="badge meta-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#0081FB">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+          Official Meta BSP
+        </span>
+      </div>
+    </div>
+
+    <div class="nav-center">
+      <div class="workspace-pill">
+        <div class="workspace-avatar">R</div>
+        <div class="workspace-info">
+          <span class="workspace-title">Ramesh Organics (D2C)</span>
+          <span class="workspace-id">WABA ID: 104829104928192</span>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <!-- Live Metrics Trigger -->
+      <button id="toggleEconomicsBtn" class="btn btn-secondary btn-sm" title="Inspect Cost & Unit Economics Model">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span>Support ROI ($48k Saved)</span>
+      </button>
+
+      <button id="themeToggleBtn" class="btn-icon" title="Toggle Light/Dark Theme">
+        <svg id="themeIconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+
+      <div class="user-profile">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="avatar-img">
+        <span class="user-status-dot"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">WORKSPACE</div>
+        <a href="#dashboard" class="nav-item active" data-tab="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="#templates" class="nav-item" data-tab="templates">
+          <div class="nav-item-content">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Templates</span>
+          </div>
+          <span class="badge badge-danger badge-pill" id="templateBadgeCount">1 Issue</span>
+        </a>
+        <a href="#chatbots" class="nav-item" data-tab="chatbots">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+          <span>Chatbot Flows</span>
+        </a>
+        <a href="#campaigns" class="nav-item" data-tab="campaigns">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+          <span>Broadcasts</span>
+        </a>
+        <a href="#integrations" class="nav-item" data-tab="integrations">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <span>Integrations</span>
+        </a>
+
+        <div class="nav-section-label" style="margin-top: 24px;">AI SUPPORT SYSTEM</div>
+        <a href="#diagnostics" class="nav-item" data-tab="diagnostics">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span>Health Diagnostics</span>
+          <span class="badge badge-warning badge-pill">68%</span>
+        </a>
+        <a href="#escalations" class="nav-item" data-tab="escalations">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Human Escalation Desk</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="copilot-mini-status">
+          <div class="status-indicator online"></div>
+          <div class="status-text">
+            <strong>Cheerio Copilot Active</strong>
+            <span>Listening to Meta API telemetry</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- PROACTIVE HEALTHCHECK BANNER -->
+      <section class="health-banner" id="healthBanner">
+        <div class="health-banner-content">
+          <div class="health-score-ring">
+            <svg viewBox="0 0 36 36" class="circular-chart orange">
+              <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="circle" stroke-dasharray="68, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <text x="18" y="20.35" class="percentage">68%</text>
+            </svg>
+          </div>
+          <div class="health-details">
+            <div class="health-header">
+              <h3>Setup Health: Action Required Before Diwali Broadcast</h3>
+              <span class="tag tag-amber">Automated Diagnostic Check</span>
+            </div>
+            <p>We detected <strong>1 rejected Meta template</strong> and an <strong>unhandled chatbot fallback intent</strong>. Your WhatsApp API Cloud connection is live, but broadcasts cannot deliver until these are fixed.</p>
+            <div class="health-actions">
+              <button class="btn btn-primary" id="triggerTemplateAutoFixBannerBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Auto-Fix Rejected Template (1-Click)
+              </button>
+              <button class="btn btn-ghost" id="openTelemetryDrawerBtn">View System Telemetry</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 1: DASHBOARD OVERVIEW -->
+      <div id="dashboardTab" class="tab-pane active">
+        <div class="section-title-row">
+          <div>
+            <h2>Marketing & Onboarding Overview</h2>
+            <p class="text-muted">Real-time status for WhatsApp, broadcasts, and automated customer journeys.</p>
+          </div>
+          <div class="header-buttons">
+            <button class="btn btn-secondary" id="simulateErrorBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Simulate Meta Error
+            </button>
+            <button class="btn btn-primary" id="openCopilotDrawerBtn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.26 5.09 7.42v1.58a2 2 0 0 0 2 2h1.82a2 2 0 0 0 2-2v-1.58A8.003 8.003 0 0 0 12 2Z"/></svg>
+              Ask Cheerio Copilot
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">WhatsApp Cloud API</span>
+              <span class="status-badge success">Connected</span>
+            </div>
+            <div class="kpi-value">+91 98201 92831</div>
+            <div class="kpi-footer text-success">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Quality Rating: HIGH (Tier 1: 1k/day)
+            </div>
+          </div>
+
+          <div class="kpi-card error-glow" id="kpiTemplateCard">
+            <div class="kpi-header">
+              <span class="kpi-label">Message Templates</span>
+              <span class="status-badge danger" id="templateKpiBadge">1 Rejected</span>
+            </div>
+            <div class="kpi-value" id="templateKpiCount">3 of 4 Approved</div>
+            <div class="kpi-footer text-danger" id="templateKpiFooter">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Diwali_Flash_Sale rejected by Meta
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Chatbot Flow Health</span>
+              <span class="status-badge warning">1 Warning</span>
+            </div>
+            <div class="kpi-value">Lead Qualification</div>
+            <div class="kpi-footer text-warning">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Orphan branch without fallback node
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-label">Shopify Order Sync</span>
+              <span class="status-badge success">Live</span>
+            </div>
+            <div class="kpi-value">148 Orders / Week</div>
+            <div class="kpi-footer text-success">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Abandoned cart triggers active
+            </div>
+          </div>
+        </div>
+
+        <!-- HERO SCENARIO: TEMPLATE REJECTION RESOLVER -->
+        <div class="card scenario-card">
+          <div class="card-header">
+            <div>
+              <h3>Scenario 1: Meta Message Template Diagnostic & 1-Click AutoFix</h3>
+              <p class="text-muted">Simulating a non-technical D2C founder whose campaign template was rejected by Meta Graph API.</p>
+            </div>
+            <span class="badge badge-purple">Hero PM Case Study</span>
+          </div>
+
+          <div class="template-table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Template Name</th>
+                  <th>Category</th>
+                  <th>Language</th>
+                  <th>Meta API Status</th>
+                  <th>Diagnostic Diagnosis</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="templateTableBody">
+                <tr class="highlight-row" id="rowDiwali">
+                  <td>
+                    <strong>diwali_flash_sale_v1</strong>
+                    <div class="subtext">Created 2 hours ago</div>
+                  </td>
+                  <td><span class="tag tag-blue" id="tagCategory">Utility</span></td>
+                  <td>English (en_US)</td>
+                  <td>
+                    <span class="status-badge danger" id="badgeDiwaliStatus">
+                      <span class="dot"></span> REJECTED
+                    </span>
+                  </td>
+                  <td>
+                    <div class="diagnostic-pill error" id="diagnosticDiwaliText">
+                      <strong>Meta Code 132000:</strong> Variable parameter missing sample & category mismatch
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-sm" id="btnDiagnoseDiwali">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                      Diagnose & AutoFix
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong>order_shipped_confirmation</strong>
+                    <div class="subtext">Created 3 days ago</div>
+                  </td>
+                  <td><span class="tag tag-blue">Utility</span></td>
+                  <td>English (en_US)</td>
+                  <td><span class="status-badge success"><span class="dot"></span> APPROVED</span></td>
+                  <td><span class="text-muted">Verified by Meta</span></td>
+                  <td><button class="btn btn-outline btn-sm" disabled>Ready</button></td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong>welcome_discount_voucher</strong>
+                    <div class="subtext">Created 1 week ago</div>
+                  </td>
+                  <td><span class="tag tag-purple">Marketing</span></td>
+                  <td>English (en_US)</td>
+                  <td><span class="status-badge success"><span class="dot"></span> APPROVED</span></td>
+                  <td><span class="text-muted">Verified by Meta</span></td>
+                  <td><button class="btn btn-outline btn-sm" disabled>Ready</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TWO COLUMN ROW: CHATBOT FLOW DEBUGGER & ESCALATION PROTOCOL -->
+        <div class="grid-2col">
+          <!-- Chatbot Flow Visualizer -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Chatbot Flow Diagnostics</h3>
+                <p class="text-muted">Dead-end loop detection & fallback intents.</p>
+              </div>
+              <button class="btn btn-outline btn-sm" id="fixFlowBtn">Auto-Link Fallback</button>
+            </div>
+            <div class="flow-preview-box">
+              <div class="flow-node node-start">
+                <div class="node-badge">TRIGGER</div>
+                <div class="node-title">Inbound WhatsApp Keyword: "OFFER"</div>
+              </div>
+              <div class="flow-connector"></div>
+              <div class="flow-node node-condition">
+                <div class="node-badge">LOGIC</div>
+                <div class="node-title">Condition: Reply exact match "Yes"</div>
+              </div>
+              <div class="flow-split">
+                <div class="flow-branch">
+                  <div class="flow-connector"></div>
+                  <div class="flow-node node-action">
+                    <div class="node-badge">ACTION</div>
+                    <div class="node-title">Send 20% Coupon Code</div>
+                  </div>
+                </div>
+                <div class="flow-branch">
+                  <div class="flow-connector error"></div>
+                  <div class="flow-node node-error" id="orphanFlowNode">
+                    <div class="node-badge danger">DEAD END</div>
+                    <div class="node-title">Customer types "yes please" or Hinglish</div>
+                    <div class="node-warning">No default fallback! Bot goes silent.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Smart Escalation Preview -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3>Smart Escalation Protocol</h3>
+                <p class="text-muted">When AI boundaries are hit, escalate with zero back-and-forth.</p>
+              </div>
+              <span class="badge badge-amber">Warm Handoff</span>
+            </div>
+            <div class="escalation-summary">
+              <div class="dossier-card">
+                <div class="dossier-header">
+                  <span class="dossier-title">Auto-Generated Diagnostic Dossier</span>
+                  <span class="badge badge-purple">Ticket #CH-8921</span>
+                </div>
+                <div class="dossier-body">
+                  <div class="dossier-row">
+                    <span class="dossier-key">Merchant:</span>
+                    <span class="dossier-val">Ramesh Organics (Tier: ₹1,999 Startup)</span>
+                  </div>
+                  <div class="dossier-row">
+                    <span class="dossier-key">Meta WABA ID:</span>
+                    <span class="dossier-val code">104829104928192</span>
+                  </div>
+                  <div class="dossier-row">
+                    <span class="dossier-key">Triggered Error:</span>
+                    <span class="dossier-val text-danger">Meta Code 131031 (Prepaid Wallet Depleted)</span>
+                  </div>
+                  <div class="dossier-row">
+                    <span class="dossier-key">AI Attempts:</span>
+                    <span class="dossier-val">Diagnosed wallet threshold; guided to Meta payment page</span>
+                  </div>
+                  <div class="dossier-row">
+                    <span class="dossier-key">Assigned Specialist:</span>
+                    <span class="dossier-val">Amit S. (Meta Partner Escalation Lead)</span>
+                  </div>
+                </div>
+                <div class="dossier-footer">
+                  <span class="text-muted">AHT Reduced from 18 mins to 7 mins (-61%)</span>
+                  <button class="btn btn-secondary btn-sm" id="testEscalateBtn">Test Escalation Modal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: TEMPLATES FULL VIEW -->
+      <div id="templatesTab" class="tab-pane">
+        <div class="section-title-row">
+          <div>
+            <h2>Meta WhatsApp Message Templates</h2>
+            <p class="text-muted">All templates synchronized with Meta Cloud Graph API.</p>
+          </div>
+          <button class="btn btn-primary" id="openTemplateAutoFixDirectBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            AutoFix Rejected Template
+          </button>
+        </div>
+        <div class="card">
+          <p>This tab provides direct access to all WhatsApp marketing, utility, and authentication templates.</p>
+        </div>
+      </div>
+
+      <!-- TAB 3: DIAGNOSTICS & TELEMETRY -->
+      <div id="diagnosticsTab" class="tab-pane">
+        <div class="section-title-row">
+          <div>
+            <h2>Live Health & Telemetry Inspector</h2>
+            <p class="text-muted">Deep inspection into Meta API error codes, webhook logs, and automated healing state.</p>
+          </div>
+          <button class="btn btn-secondary" id="runFullDiagnosticSuiteBtn">Run Diagnostic Ping</button>
+        </div>
+
+        <div class="card">
+          <div class="console-box" id="diagnosticConsole">
+            <div class="console-line"><span class="console-time">[16:24:02]</span> <span class="console-info">INFO:</span> Cheerio Telemetry Daemon connected to Meta Graph API v20.0</div>
+            <div class="console-line"><span class="console-time">[16:24:03]</span> <span class="console-success">SUCCESS:</span> Phone Number +91 98201 92831 verified. Two-factor PIN status: ACTIVE</div>
+            <div class="console-line"><span class="console-time">[16:24:04]</span> <span class="console-warn">WARN:</span> Template 'diwali_flash_sale_v1' webhook event: REJECTED</div>
+            <div class="console-line"><span class="console-time">[16:24:04]</span> <span class="console-error">ERROR 132000:</span> Meta Error Subcode 2388091: The parameter {{1}} has no provided sample value and starts sentence. Category 'Utility' rejected for promotional wording.</div>
+            <div class="console-line"><span class="console-time">[16:24:05]</span> <span class="console-info">ACTION:</span> Cheerio Copilot generated 1-Click AutoFix patch payload. Awaiting user approval.</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- AUTO-FIX MODAL (HERO INTERACTION) -->
+  <div class="modal-backdrop" id="autoFixModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="modal-header-text">
+            <h3>Cheerio Copilot: 1-Click Template AutoFix</h3>
+            <span class="subtext">Resolving Meta Graph API Error 132000 for <strong>diwali_flash_sale_v1</strong></span>
+          </div>
+          <button class="btn-close" id="closeAutoFixModalBtn">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Plain Language Translation Card -->
+          <div class="diagnosis-callout">
+            <div class="callout-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              Plain Language Diagnostic (English / Hinglish)
+            </div>
+            <p><strong>Kyun Reject Hua? (Why did Meta reject this?):</strong></p>
+            <ul>
+              <li><strong>Missing Sample Value:</strong> Meta requires sample text (like <em>"e.g. Ramesh"</em>) for variable <code>{{1}}</code> so their automated review knows what you intend to send.</li>
+              <li><strong>Variable at Sentence Start:</strong> Meta prohibits starting a template with <code>{{1}}</code> because spammers use that pattern.</li>
+              <li><strong>Category Mismatch:</strong> This template includes <em>"Diwali Discount 30% OFF"</em>, which Meta strictly classifies as <strong>Marketing</strong>, not <strong>Utility</strong>.</li>
+            </ul>
+          </div>
+
+          <!-- Side-by-Side Diff Preview -->
+          <div class="diff-container">
+            <div class="diff-column rejected">
+              <div class="diff-header">
+                <span class="status-badge danger">ORIGINAL (REJECTED)</span>
+                <span class="category-tag">Category: Utility (Rejected)</span>
+              </div>
+              <div class="diff-content">
+                <p class="diff-text">
+                  <span class="strike">{{1}}</span>, your Diwali order is waiting! Get 30% OFF on organic dry fruits with code DIWALI30.
+                </p>
+                <div class="diff-meta-errors">
+                  <span class="error-badge">✖ Variable starts message</span>
+                  <span class="error-badge">✖ Missing sample: {{1}}</span>
+                  <span class="error-badge">✖ Promotional words in Utility</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="diff-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+
+            <div class="diff-column corrected">
+              <div class="diff-header">
+                <span class="status-badge success">COPILOT AUTO-FIX (READY)</span>
+                <span class="category-tag green">Category: Marketing (Compliant)</span>
+              </div>
+              <div class="diff-content">
+                <p class="diff-text">
+                  <span class="add">Hello</span> {{1}}, your Diwali festive gift is waiting! Enjoy 30% OFF on all organic dry fruits with code DIWALI30.
+                </p>
+                <div class="diff-meta-fixes">
+                  <span class="fix-badge">✔ Sample added: "Ramesh"</span>
+                  <span class="fix-badge">✔ Compliant greeting prefix added</span>
+                  <span class="fix-badge">✔ Re-tagged as Marketing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Resolution Status (Animated during fix) -->
+          <div class="auto-fix-progress" id="autoFixProgress" style="display: none;">
+            <div class="spinner"></div>
+            <div class="progress-details">
+              <strong id="progressStepTitle">Reformatting Template Payload...</strong>
+              <span id="progressStepDesc">Injecting sample variables and updating Meta Graph API category</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelAutoFixBtn">Cancel</button>
+          <button class="btn btn-primary btn-pulse" id="executeAutoFixBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Apply Auto-Fix & Resubmit to Meta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMART ESCALATION MODAL -->
+  <div class="modal-backdrop" id="escalationModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-header-icon amber">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="modal-header-text">
+            <h3>Warm Human Escalation</h3>
+            <span class="subtext">Connecting to Cheerio WhatsApp Partner Specialist</span>
+          </div>
+          <button class="btn-close" id="closeEscalationModalBtn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="text-sm">Cheerio Copilot has packaged your full technical snapshot. Our human specialist will not ask you for screenshots or logs.</p>
+          <div class="code-box">
+            <pre>
+[CH-DOSSIER-8921]
+Account: Ramesh Organics (ID: waba_910492)
+Meta Error: 131031 (Prepaid WhatsApp balance depleted)
+User Sentiment: High Urgency (Diwali Broadcast Pending)
+AI Resolution: Unable to process payment (Human Billing Auth Required)
+Status: P1 Ticket Dispatched to L2 WhatsApp Ops Desk
+Estimated Response: Under 4 minutes
+            </pre>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelEscalationBtn">Close</button>
+          <button class="btn btn-primary" id="confirmEscalationBtn">Confirm Handoff</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING COPILOT CHAT DRAWER -->
+  <div class="copilot-drawer" id="copilotDrawer">
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <div class="copilot-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div>
+          <h4>Cheerio Copilot</h4>
+          <span class="copilot-status">Active in workspace • Hindi/English</span>
+        </div>
+      </div>
+      <button class="btn-icon" id="closeCopilotDrawerBtn">&times;</button>
+    </div>
+
+    <div class="drawer-chat-messages" id="chatMessages">
+      <div class="chat-bubble ai">
+        <div class="bubble-header">Cheerio Copilot</div>
+        <div class="bubble-text">
+          Hi Ramesh! I'm monitoring your workspace. I noticed Meta rejected your <strong>Diwali_Flash_Sale</strong> template because of missing sample variables. Would you like me to auto-fix and resubmit it?
+        </div>
+        <div class="bubble-actions">
+          <button class="btn btn-primary btn-xs" id="chatFixTemplateBtn">Yes, Auto-Fix Template</button>
+          <button class="btn btn-secondary btn-xs" id="chatExplainHinglishBtn">Hindi me samjhao</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Prompt Chips -->
+    <div class="quick-chips">
+      <button class="chip" data-prompt="Why is my template rejected?">Why template rejected?</button>
+      <button class="chip" data-prompt="Check my Shopify webhook">Check Shopify webhook</button>
+      <button class="chip" data-prompt="Meta blocked my phone number">Meta blocked my number</button>
+      <button class="chip" data-prompt="I need human support">Talk to human</button>
+    </div>
+
+    <div class="drawer-input-row">
+      <input type="text" id="copilotInput" placeholder="Ask anything in English or Hinglish..." autocomplete="off">
+      <button id="sendCopilotMsgBtn" class="btn btn-primary btn-icon-only">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- FLOATING COPILOT LAUNCHER BUTTON -->
+  <button class="copilot-launcher" id="copilotLauncherBtn" title="Open Cheerio Copilot">
+    <div class="launcher-pulse"></div>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span class="launcher-badge">1</span>
+  </button>
+
+  <!-- SUPPORT UNIT ECONOMICS DRAWER -->
+  <div class="economics-drawer" id="economicsDrawer">
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <div class="copilot-avatar green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <h4>Cheerio Support Unit Economics</h4>
+          <span class="copilot-status text-success">Google Sheet Model (5,000 Businesses)</span>
+        </div>
+      </div>
+      <button class="btn-icon" id="closeEconomicsDrawerBtn">&times;</button>
+    </div>
+    <div class="economics-content">
+      <div class="economics-hero-stat">
+        <div class="hero-stat-label">Net Annual Support Savings</div>
+        <div class="hero-stat-value">₹48,09,128 / Year</div>
+        <div class="hero-stat-subtext">(-74.2% support cost reduction via 66% autonomous deflection)</div>
+      </div>
+
+      <div class="econ-grid">
+        <div class="econ-box">
+          <span class="econ-box-label">Monthly Queries</span>
+          <span class="econ-box-val">9,000</span>
+          <span class="econ-box-sub">1.8 queries / SMB</span>
+        </div>
+        <div class="econ-box">
+          <span class="econ-box-label">AI Deflection Rate</span>
+          <span class="econ-box-val text-success">66.0%</span>
+          <span class="econ-box-sub">5,940 resolved auto</span>
+        </div>
+        <div class="econ-box">
+          <span class="econ-box-label">AI Cost / Query</span>
+          <span class="econ-box-val text-primary">₹0.054</span>
+          <span class="econ-box-sub">GPT-4o-mini cached</span>
+        </div>
+        <div class="econ-box">
+          <span class="econ-box-label">Agents Needed</span>
+          <span class="econ-box-val">3 vs 12</span>
+          <span class="econ-box-sub">9 agents saved</span>
+        </div>
+      </div>
+
+      <div class="econ-table-box">
+        <h5>Cost Comparison: Pure Human vs Cheerio Copilot</h5>
+        <table class="table-compact">
+          <tr>
+            <td>Baseline Human Support (12 Agents @ ₹45k/mo)</td>
+            <td class="text-right text-danger">₹5,40,000 / mo</td>
+          </tr>
+          <tr>
+            <td>Cheerio Copilot Hybrid (3 Agents @ ₹45k/mo)</td>
+            <td class="text-right">₹1,35,000 / mo</td>
+          </tr>
+          <tr>
+            <td>AI Running Cost (Tokens + Infrastructure)</td>
+            <td class="text-right">₹4,239 / mo</td>
+          </tr>
+          <tr class="highlight-row">
+            <td><strong>Net Monthly Savings</strong></td>
+            <td class="text-right text-success"><strong>₹4,00,761 / mo</strong></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="econ-actions">
+        <a href="../docs/Cheerio_Support_Economics_Google_Sheet.csv" download class="btn btn-secondary btn-sm">
+          Download Google Sheet (.CSV)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
